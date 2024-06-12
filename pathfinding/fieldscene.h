@@ -28,6 +28,7 @@ private:
     void FindPath();
     void DrawPath(const QColor& color);
     void DrawField();
+    void UpdateRects();
     void SetCellColor(const QPoint& point, const QColor& color);
     void ClearAPoint();
     void ClearBPoint();

@@ -65,15 +65,7 @@ void FieldScene::wheelEvent(QGraphicsSceneWheelEvent *event) {
     } else {
         cell_size_ /= factor;
     }
-    DrawField();
-    DrawPath(Qt::blue);
-
-    if (a_point_) {
-        SetCellColor(*a_point_, Qt::green);
-    }
-    if (b_point_) {
-        SetCellColor(*b_point_, Qt::red);
-    }
+    UpdateRects();
 }
 
 void FieldScene::FindPath() {
@@ -112,7 +104,25 @@ void FieldScene::DrawField() {
         }
     }
 
-    // Обновить границы поля
+    QRectF sceneBounds = itemsBoundingRect();
+    setSceneRect(sceneBounds);
+}
+
+void FieldScene::UpdateRects() {
+    int w = static_cast<int>(field_->GetWidth());
+    int h = static_cast<int>(field_->GetHeight());
+
+    for (int y = 0; y < h; ++y) {
+        for (int x = 0; x < w; ++x) {
+        int index = y * w + x;
+            QGraphicsRectItem* rect = rects_[index];
+            if (rect) {
+                rect->setRect(x * cell_size_, y * cell_size_,
+                              cell_size_, cell_size_);
+            }
+        }
+    }
+
     QRectF sceneBounds = itemsBoundingRect();
     setSceneRect(sceneBounds);
 }
