@@ -2,10 +2,10 @@
 
 #include <QGraphicsView>
 #include <QHBoxLayout>
-#include <QWheelEvent>
-#include <QScrollBar>
 #include <QLabel>
+#include <QScrollBar>
 #include <QSettings>
+#include <QWheelEvent>
 
 // Производный класс от QGraphicsView,
 // запрещающий скроллинг поля колесом мыши

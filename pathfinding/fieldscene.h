@@ -3,8 +3,8 @@
 
 #include "field.h"
 
-#include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneWheelEvent>
 
@@ -40,7 +40,6 @@ private:
 
     std::vector<QGraphicsRectItem*> rects_;
     qreal cell_size_ = 20;
-    qreal scale_ = 1.0;
 
     std::optional<pf::Path> path_;
 };

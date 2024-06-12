@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
-#include <random>
 #include <queue>
+#include <random>
 #include <unordered_set>
 
 namespace pf {
@@ -24,7 +24,9 @@ std::size_t Point::Hasher::operator()(const Point &p) const {
 void CellGraph::Init(const std::vector<std::vector<CellType>> &data) {
     nodes_.clear();
     int h = data.size();
+    assert(h > 0);
     int w = data[0].size();
+    assert(w > 0);
 
     // Создать ноды
     for (int y = 0; y < h; ++y) {
@@ -110,7 +112,8 @@ std::optional<Path> CellGraph::FindPath(Point a, Point b) const {
 }
 
 Field::Field(size_t w, size_t h, int probability_of_wall)
-: w_(w) , h_(h) {
+: w_(w)
+, h_(h) {
     assert(probability_of_wall >= 0 && probability_of_wall <= 100);
 
     // Использовать время в качестве seed, так как std::random_device не всегда доступен
@@ -130,6 +133,8 @@ Field::Field(size_t w, size_t h, int probability_of_wall)
 }
 
 std::optional<Path> Field::FindPath(Point a, Point b) const {
+    PointIsOnFieldAssert(a);
+    PointIsOnFieldAssert(b);
     assert(a != b);
     assert(data_[a.y][a.x] == CellType::EMPTY);
     assert(data_[b.y][b.x] == CellType::EMPTY);
@@ -138,10 +143,8 @@ std::optional<Path> Field::FindPath(Point a, Point b) const {
 }
 
 CellType Field::GetCellType(Point pos) const {
-    size_t x = static_cast<size_t>(pos.x);
-    size_t y = static_cast<size_t>(pos.y);
-    assert(x >= 0 && y >= 0 && x < w_ && y < h_);
-    return data_[y][x];
+    PointIsOnFieldAssert(pos);
+    return data_[pos.y][pos.x];
 }
 
 size_t Field::GetWidth() const {
@@ -150,6 +153,12 @@ size_t Field::GetWidth() const {
 
 size_t Field::GetHeight() const {
     return h_;
+}
+
+void Field::PointIsOnFieldAssert(Point pos) const {
+    size_t x = static_cast<size_t>(pos.x);
+    size_t y = static_cast<size_t>(pos.y);
+    assert(x >= 0 && y >= 0 && x < w_ && y < h_);
 }
 
 }

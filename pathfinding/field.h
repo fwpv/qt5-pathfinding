@@ -16,8 +16,6 @@ struct Point {
     int x = 0;
     int y = 0;
 
-    //void operator=(const Point&) = default;
-
     bool operator==(const Point& other) const;
     bool operator!=(const Point& other) const;
 
@@ -55,6 +53,8 @@ public:
     size_t GetHeight() const;
 
 private:
+    void PointIsOnFieldAssert(Point pos) const;
+
     std::vector<std::vector<CellType>> data_;
     size_t w_;
     size_t h_;

@@ -3,10 +3,10 @@
 
 #include "fieldscene.h"
 
-#include <QMainWindow>
 #include <QGraphicsView>
-#include <QSpinBox>
+#include <QMainWindow>
 #include <QPushButton>
+#include <QSpinBox>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

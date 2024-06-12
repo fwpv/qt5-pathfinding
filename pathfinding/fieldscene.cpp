@@ -3,8 +3,8 @@
 #include <QMessageBox>
 
 FieldScene::FieldScene(QGraphicsScene *parent)
-: QGraphicsScene(parent),
-field_(nullptr) {
+: QGraphicsScene(parent)
+, field_(nullptr) {
 }
 
 void FieldScene::RegenerateField(QSize size) {
@@ -46,7 +46,6 @@ void FieldScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     } else if (!b_point_) {
         b_point_ = point;
         SetCellColor(point, Qt::red);
-
     } else {
         ClearPoints();
         DrawPath(Qt::white);
