@@ -14,10 +14,16 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private slots:
     void GenerateClicked();
 
 private:
+    void ReadSettings();
+    void WriteSettings();
+
     QGraphicsView* gv;
     FieldScene* scene;
     QSpinBox* width_spin;

@@ -5,6 +5,7 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QLabel>
+#include <QSettings>
 
 // Производный класс от QGraphicsView,
 // запрещающий скроллинг поля колесом мыши
@@ -62,10 +63,34 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *central_widget = new QWidget(this);
     central_widget->setLayout(main_layout);
     setCentralWidget(central_widget);
+
+    ReadSettings();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    WriteSettings();
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::GenerateClicked() {
     int width = width_spin->value();
     int height = height_spin->value();
     scene->RegenerateField(QSize(width, height));
+}
+
+void MainWindow::ReadSettings() {
+    QSettings settings("settings.ini", QSettings::IniFormat);
+
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(400, 400)).toSize();
+
+    resize(size);
+    move(pos);
+}
+
+void MainWindow::WriteSettings() {
+    QSettings settings("settings.ini", QSettings::IniFormat);
+
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
 }
