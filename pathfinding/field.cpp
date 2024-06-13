@@ -60,12 +60,12 @@ void CellGraph::Init(const std::vector<std::vector<CellType>> &data) {
     }
 
     // Создать связи между нодами
-    for (const auto &pair : points_map) {
-        const Point &p = pair.first;
-        const std::vector<Point> &neighbor_points = pair.second;
+    for (const auto& pair : points_map) {
+        const Point& p = pair.first;
+        const std::vector<Point>& neighbor_points = pair.second;
 
-        Node &node = nodes_.at(p);
-        for (const Point &neighbor_point : neighbor_points) {
+        Node& node = nodes_.at(p);
+        for (const Point& neighbor_point : neighbor_points) {
             node.neighbor_nodes.push_back(&nodes_.at(neighbor_point));
         }
     }
