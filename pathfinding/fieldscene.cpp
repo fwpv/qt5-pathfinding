@@ -18,12 +18,14 @@ void FieldScene::RegenerateField(QSize size) {
 void FieldScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QPointF pos = event->scenePos();
 
-    if (!sceneRect().contains(pos)) {
-        return; // Клик вне поля это не ошибка
-    }
-
     QPoint cell_pos{static_cast<int>(pos.x() / cell_size_),
         static_cast<int>(pos.y() / cell_size_)};
+
+    if (cell_pos.x() >= static_cast<int>(field_->GetWidth())
+            || cell_pos.y() >= static_cast<int>(field_->GetHeight())
+            || cell_pos.x() < 0 || cell_pos.y() < 0) {
+        return; // Клик вне поля это не ошибка
+    }
 
     if (field_->GetCellType(pf::Point{cell_pos.x(), cell_pos.y()})
             == pf::CellType::WALL) {
