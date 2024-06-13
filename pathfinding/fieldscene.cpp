@@ -6,7 +6,7 @@ FieldScene::FieldScene(QGraphicsScene *parent)
     : QGraphicsScene(parent) {
 }
 
-void FieldScene::RegenerateField(QSize size){
+void FieldScene::RegenerateField(QSize size) {
     field_ = std::make_unique<pf::Field>(static_cast<size_t>(size.width()),
         static_cast<size_t>(size.height()));
 
@@ -25,7 +25,8 @@ void FieldScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     QPoint cell_pos{static_cast<int>(pos.x() / cell_size_),
         static_cast<int>(pos.y() / cell_size_)};
 
-    if (field_->GetCellType(pf::Point{cell_pos.x(), cell_pos.y()}) == pf::CellType::WALL) {
+    if (field_->GetCellType(pf::Point{cell_pos.x(), cell_pos.y()})
+            == pf::CellType::WALL) {
         QMessageBox messageBox;
         messageBox.warning(0, "Предупреждение!",
             "В качестве начала или конца пути нельзя выбрать стену!");
@@ -95,8 +96,8 @@ void FieldScene::DrawField() {
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
             pf::CellType cell_type = field_->GetCellType({x, y});
-            QGraphicsRectItem* rect = addRect(x * cell_size_, y * cell_size_,
-                cell_size_, cell_size_);
+            QGraphicsRectItem* rect = addRect(x * cell_size_,
+                y * cell_size_, cell_size_, cell_size_);
             if (cell_type == pf::CellType::WALL) {
                 rect->setBrush(Qt::black);
             } else {
@@ -120,7 +121,7 @@ void FieldScene::UpdateRects() {
             QGraphicsRectItem* rect = rects_[index];
             if (rect) {
                 rect->setRect(x * cell_size_, y * cell_size_,
-                              cell_size_, cell_size_);
+                cell_size_, cell_size_);
             }
         }
     }
@@ -132,7 +133,8 @@ void FieldScene::UpdateRects() {
 void FieldScene::RestoreCellColor(QPoint cell_pos) {
     size_t index = cell_pos.y() * field_->GetWidth() + cell_pos.x();
     if (index < rects_.size()) {
-        pf::CellType cell_type = field_->GetCellType({cell_pos.x(), cell_pos.y()});
+        pf::CellType cell_type =
+            field_->GetCellType({cell_pos.x(), cell_pos.y()});
         if (cell_type == pf::CellType::WALL) {
             rects_[index]->setBrush(Qt::black);
         } else {

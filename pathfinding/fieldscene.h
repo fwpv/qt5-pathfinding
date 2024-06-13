@@ -43,7 +43,7 @@ private:
     PressState state_;
 
     std::unique_ptr<pf::Field> field_;
-    QPoint a_cell_pos_; //слово point заменить на cell
+    QPoint a_cell_pos_;
     QPoint b_cell_pos_;
     pf::Path path_;
 
