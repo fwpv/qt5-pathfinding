@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent) {
     // Создать сцену
     gv = new GraphicsView(this);
-    gv->setFocusPolicy( Qt::NoFocus );
+    gv->setFocusPolicy(Qt::NoFocus);
     scene = new FieldScene;
     gv->setScene(scene);
     scene->RegenerateField(QSize(15, 15));
@@ -80,17 +80,11 @@ void MainWindow::GenerateClicked() {
 
 void MainWindow::ReadSettings() {
     QSettings settings("settings.ini", QSettings::IniFormat);
-
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(400, 400)).toSize();
-
-    resize(size);
     move(pos);
 }
 
 void MainWindow::WriteSettings() {
     QSettings settings("settings.ini", QSettings::IniFormat);
-
     settings.setValue("pos", pos());
-    settings.setValue("size", size());
 }

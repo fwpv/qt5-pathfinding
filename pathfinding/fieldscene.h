@@ -16,8 +16,6 @@ class FieldScene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit FieldScene(QGraphicsScene *parent = nullptr);
-
-    // Создаёт новое поле и отображает на экране
     void RegenerateField(QSize size);
 
 protected:
@@ -25,24 +23,32 @@ protected:
     void wheelEvent(QGraphicsSceneWheelEvent *event) override;
 
 private:
-    void FindPath();
-    void DrawPath(const QColor& color);
+    enum class PressState {
+        WAITING_FOR_A,
+        WAITING_FOR_B,
+        SHOWING_PATH
+    };
+
+    void ProcessPress(QPoint cell_pos);
+
     void DrawField();
     void UpdateRects();
-    void SetCellColor(const QPoint& point, const QColor& color);
-    void ClearAPoint();
-    void ClearBPoint();
-    void ClearPoints();
+
+    void RestoreCellColor(QPoint cell_pos);
+    void SetCellColor(QPoint cell_pos, const QColor& color);
+    void DrawPath(const QColor& color);
+
+    void FindPath();
+
+    PressState state_;
 
     std::unique_ptr<pf::Field> field_;
+    QPoint a_cell_pos_; //слово point заменить на cell
+    QPoint b_cell_pos_;
+    pf::Path path_;
 
-    std::optional<QPoint> a_point_;
-    std::optional<QPoint> b_point_;
-
-    std::vector<QGraphicsRectItem*> rects_;
     qreal cell_size_ = 20;
-
-    std::optional<pf::Path> path_;
+    std::vector<QGraphicsRectItem*> rects_;
 };
 
 #endif // FIELDSCENE_H
