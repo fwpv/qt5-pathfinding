@@ -121,7 +121,7 @@ void FieldScene::UpdateRects() {
             QGraphicsRectItem* rect = rects_[index];
             if (rect) {
                 rect->setRect(x * cell_size_, y * cell_size_,
-                cell_size_, cell_size_);
+                    cell_size_, cell_size_);
             }
         }
     }
@@ -166,5 +166,7 @@ void FieldScene::FindPath(){
     auto result = field_->FindPath(a, b);
     if (result) {
         path_ = *result;
+    } else {
+        path_.clear();
     }
 }
