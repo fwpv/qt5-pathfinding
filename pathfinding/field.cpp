@@ -28,7 +28,9 @@ void CellGraph::Init(const std::vector<std::vector<CellType>> &data) {
     int w = data[0].size();
     assert(w > 0);
 
-    // Создать ноды
+    std::unordered_map<Point, std::vector<Point>, Point::Hasher> points_map;
+
+    // Создать ноды и временный map для соседей
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
             if (data[y][x] == CellType::WALL) continue;
@@ -52,14 +54,18 @@ void CellGraph::Init(const std::vector<std::vector<CellType>> &data) {
                 neighbor_points.emplace_back(Point{x, y + 1});
             }
 
-            nodes_.emplace(p, Node{p, std::move(neighbor_points), {}});
+            points_map[p] = std::move(neighbor_points);
+            nodes_.emplace(p, Node{p, {}});
         }
     }
 
     // Создать связи между нодами
-    for (auto &pair : nodes_) {
-        Node &node = pair.second;
-        for (const Point &neighbor_point : node.neighbor_points) {
+    for (const auto &pair : points_map) {
+        const Point &p = pair.first;
+        const std::vector<Point> &neighbor_points = pair.second;
+
+        Node &node = nodes_.at(p);
+        for (const Point &neighbor_point : neighbor_points) {
             node.neighbor_nodes.push_back(&nodes_.at(neighbor_point));
         }
     }

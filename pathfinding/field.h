@@ -30,7 +30,6 @@ class CellGraph {
 public:
     struct Node {
         Point point;
-        std::vector<Point> neighbor_points;
         std::vector<Node*> neighbor_nodes;
     };
 

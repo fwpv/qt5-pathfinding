@@ -94,20 +94,26 @@ void FieldScene::DrawField() {
     rects_.clear();
     int w = static_cast<int>(field_->GetWidth());
     int h = static_cast<int>(field_->GetHeight());
+    rects_.reserve(w * h);
 
+    QBrush black_brush(Qt::black);
+    QBrush white_brush(Qt::white);
+
+    QGraphicsItemGroup* group = new QGraphicsItemGroup();
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
             pf::CellType cell_type = field_->GetCellType({x, y});
-            QGraphicsRectItem* rect = addRect(x * cell_size_,
-                y * cell_size_, cell_size_, cell_size_);
+            QGraphicsRectItem* rect = new QGraphicsRectItem(x * cell_size_,
+                y * cell_size_, cell_size_, cell_size_, group);
             if (cell_type == pf::CellType::WALL) {
-                rect->setBrush(Qt::black);
+                rect->setBrush(black_brush);
             } else {
-                rect->setBrush(Qt::white);
+                rect->setBrush(white_brush);
             }
             rects_.emplace_back(rect);
         }
     }
+    addItem(group);
 
     QRectF sceneBounds = itemsBoundingRect();
     setSceneRect(sceneBounds);
